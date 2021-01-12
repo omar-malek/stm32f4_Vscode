@@ -20,7 +20,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "gpio.h"
-
+#include "usart.h"
+#include "string.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -86,7 +87,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+char *message = "Hello world\r\n";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,7 +98,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
-    HAL_Delay(200);
+    HAL_Delay(100);
+
+    if (HAL_GPIO_ReadPin(K1_GPIO_Port,K1_Pin)==GPIO_PIN_RESET)
+    {
+      HAL_UART_Transmit(&huart4,(uint8_t *)message,strlen(message),100);
+    }
   }
   /* USER CODE END 3 */
 }
